@@ -70,7 +70,7 @@ void writeUInt32(unsigned char *buffer, uint32_t val) {
   buffer[3] = (val >> 24) & 0xFF;
 }
 
-int min(int a, int b) {
+int min_(int a, int b) {
   return a < b ? a : b;
 }
 
@@ -115,7 +115,7 @@ void advanceOutput(roslz4_stream *str, int nbytes) {
 
 void fillUInt32(roslz4_stream *str, uint32_t *dest_val, int *offset) {
   char *dest = (char*) dest_val;
-  int to_copy = min(4 - *offset, str->input_left);
+  int to_copy = min_(4 - *offset, str->input_left);
   memcpy(dest + *offset, str->input_next, to_copy);
   advanceInput(str, to_copy);
   *offset += to_copy;
@@ -218,7 +218,7 @@ int inputToBuffer(roslz4_stream *str) {
     return 0;
   }
   int buffer_left = state->buffer_size - state->buffer_offset;
-  int to_copy = min(str->input_left, buffer_left);
+  int to_copy = min_(str->input_left, buffer_left);
 
   int ret = XXH32_update(state->xxh32_state, str->input_next, to_copy);
   if (ret == XXH_ERROR) { return ROSLZ4_ERROR; }
@@ -361,7 +361,7 @@ int processHeader(roslz4_stream *str) {
     return 1;
   }
   // Populate header buffer
-  int to_copy = min(7 - str->total_in, str->input_left);
+  int to_copy = min_(7 - str->total_in, str->input_left);
   memcpy(state->header + str->total_in, str->input_next, to_copy);
   advanceInput(str, to_copy);
   if (str->total_in < 7) {
@@ -457,7 +457,7 @@ int readBlock(roslz4_stream *str) {
   }
 
   int block_left = state->block_size - state->buffer_offset;
-  int to_copy = min(str->input_left, block_left);
+  int to_copy = min_(str->input_left, block_left);
   memcpy(state->buffer + state->buffer_offset, str->input_next, to_copy);
   advanceInput(str, to_copy);
   state->buffer_offset += to_copy;

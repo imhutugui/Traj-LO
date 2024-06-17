@@ -82,7 +82,7 @@ typedef bagmode::BagMode BagMode;
 class MessageInstance;
 class View;
 class Query;
-
+#define private public
 class ROSBAG_DECL Bag
 {
     friend class MessageInstance;
@@ -317,7 +317,7 @@ private:
 
     mutable uint64_t decompressed_chunk_;      //!< position of decompressed chunk
 };
-
+#undef private
 } // namespace rosbag
 
 #include "rosbag/message_instance.h"

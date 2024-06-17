@@ -10,7 +10,7 @@ find_package(OpenGL REQUIRED)
 
 file(GLOB IMGUI_SRC "${CMAKE_CURRENT_SOURCE_DIR}/imgui/*.cpp")
 
-add_library(imgui SHARED
+add_library(imgui STATIC
         ${IMGUI_SRC}
         imgui/backends/imgui_impl_glfw.cpp
         imgui/backends/imgui_impl_opengl3.cpp

@@ -29,7 +29,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif ()
-
+set(VCPKG_ROOT "E:/vcpkg/scripts/buildsystems/vcpkg.cmake" CACHE PATH "")
+set(CMAKE_TOOLCHAIN_FILE ${VCPKG_ROOT})
+set(ENV{VCPKG_DEFAULT_TRIPLET} "x64-windows")
 project(TrajLO LANGUAGES C CXX)
 
 if (NOT CXX_MARCH)
@@ -40,7 +42,7 @@ add_subdirectory(thirdparty)
 
 include_directories(include)
 
-add_definitions("-D SOPHUS_USE_BASIC_LOGGING")
+add_definitions("-D SOPHUS_USE_BASIC_LOGGING -D CONSOLE_BRIDGE_STATIC_DEFINE -D SOPHUS_DISABLE_ENSURES -D _USE_MATH_DEFINES")
 include_directories(thirdparty/Sophus)
 
 add_executable(trajlo run_trajlo.cpp
@@ -56,7 +58,6 @@ target_link_libraries(trajlo PUBLIC
         Eigen3::Eigen
         ${TBB_LIBRARIES}
         rosbag
-        pthread
         imgui glm::glm
         PRIVATE tsl::robin_map
         TBB::tbb

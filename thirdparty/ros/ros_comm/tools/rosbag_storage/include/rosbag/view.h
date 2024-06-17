@@ -44,7 +44,7 @@
 #include "rosbag/structures.h"
 
 namespace rosbag {
-
+#define private public
 class ROSBAG_DECL View
 {
     friend class Bag;
@@ -173,7 +173,7 @@ protected:
 
     bool reduce_overlap_;
 };
-
+#undef private
 } // namespace rosbag
 
 #endif
